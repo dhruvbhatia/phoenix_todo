@@ -1,5 +1,6 @@
 defmodule TodoWeb.Router do
   use TodoWeb, :router
+  use Kaffy.Routes, scope: "/admin", pipe_through: [:browser, :require_authenticated_user]
 
   import TodoWeb.UserAuth
 

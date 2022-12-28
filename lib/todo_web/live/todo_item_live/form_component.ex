@@ -3,8 +3,13 @@ defmodule TodoWeb.TodoItemLive.FormComponent do
 
   alias Todo.Items
 
+
   @impl true
   def render(assigns) do
+
+    IO.inspect("render")
+    IO.inspect(assigns)
+
     ~H"""
     <div>
       <.header>
@@ -31,6 +36,10 @@ defmodule TodoWeb.TodoItemLive.FormComponent do
 
   @impl true
   def update(%{todo_item: todo_item} = assigns, socket) do
+
+    IO.inspect("assigns")
+    IO.inspect(assigns)
+
     changeset = Items.change_todo_item(todo_item)
 
     {:ok,
@@ -54,7 +63,13 @@ defmodule TodoWeb.TodoItemLive.FormComponent do
   end
 
   defp save_todo_item(socket, :edit, todo_item_params) do
-    case Items.update_todo_item(socket.assigns.todo_item, todo_item_params) do
+
+    IO.inspect("edit")
+    IO.inspect(socket)
+
+
+
+    case Items.update_todo_item(socket.assigns.todo_item, todo_item_params, socket.assigns.current_user) do
       {:ok, _todo_item} ->
         {:noreply,
          socket
@@ -67,7 +82,7 @@ defmodule TodoWeb.TodoItemLive.FormComponent do
   end
 
   defp save_todo_item(socket, :new, todo_item_params) do
-    case Items.create_todo_item(todo_item_params) do
+    case Items.create_todo_item(todo_item_params, socket.assigns.current_user) do
       {:ok, _todo_item} ->
         {:noreply,
          socket

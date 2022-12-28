@@ -7,9 +7,10 @@ defmodule Todo.Items do
   alias Todo.Repo
 
   alias Todo.Items.TodoItem
+  alias Todo.Accounts.User
 
   @doc """
-  Returns the list of todo_items.
+  Returns the list of todo_items and preloads the assosciated user.
 
   ## Examples
 
@@ -18,7 +19,7 @@ defmodule Todo.Items do
 
   """
   def list_todo_items do
-    Repo.all(TodoItem)
+    Repo.all(TodoItem) |> Repo.preload(:user)
   end
 
   @doc """
@@ -35,7 +36,7 @@ defmodule Todo.Items do
       ** (Ecto.NoResultsError)
 
   """
-  def get_todo_item!(id), do: Repo.get!(TodoItem, id)
+  def get_todo_item!(id), do: Repo.get!(TodoItem, id) |> Repo.preload(:user)
 
   @doc """
   Creates a todo_item.
@@ -49,10 +50,30 @@ defmodule Todo.Items do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_todo_item(attrs \\ %{}) do
-    %TodoItem{}
+  def create_todo_item(attrs \\ %{}, user) do
+
+
+    IO.puts("usahhh")
+    IO.inspect(user)
+
+    user
+    |> Ecto.build_assoc(:todo_items)
     |> TodoItem.changeset(attrs)
-    |> Repo.insert()
+    |> Repo.insert
+
+
+
+    # need to figure out how to create this in db with assoc
+    # user
+    # |> Ecto.build_assoc(:todo_items)
+    # |> TodoItem.changeset(attrs)
+    # |> Repo.insert()
+
+    # attrs = attrs |> Map.put(:user_id, user.id)
+
+    # %TodoItem{}
+    # |> TodoItem.changeset(attrs)
+    # |> Repo.insert()
   end
 
   @doc """
@@ -67,7 +88,8 @@ defmodule Todo.Items do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_todo_item(%TodoItem{} = todo_item, attrs) do
+  def update_todo_item(%TodoItem{} = todo_item, attrs, _user) do
+
     todo_item
     |> TodoItem.changeset(attrs)
     |> Repo.update()

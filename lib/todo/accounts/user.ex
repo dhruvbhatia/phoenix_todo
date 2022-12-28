@@ -8,6 +8,8 @@ defmodule Todo.Accounts.User do
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
 
+    has_many(:todo_items, Todo.Items.TodoItem)
+
     timestamps()
   end
 

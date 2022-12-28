@@ -1,12 +1,13 @@
 defmodule TodoWeb.TodoItemLive.Index do
   use TodoWeb, :live_view
+  on_mount {TodoWeb.UserAuth, :ensure_authenticated}
 
   alias Todo.Items
   alias Todo.Items.TodoItem
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, assign(socket, :todo_items, list_todo_items())}
+  def mount(_params, session, socket) do
+    {:ok, assign(socket, %{todo_items: list_todo_items()})}
   end
 
   @impl true

@@ -9,7 +9,8 @@
 </.header>
 
 <.list>
-  <:item title="Text"><%= @todo_item.text %></:item>
+  <:item title="Item"><%= @todo_item.text %></:item>
+  <:item title="Created By"><%= @todo_item.user.email %></:item>
 </.list>
 
 <.back navigate={~p"/todo_items"}>Back to todo_items</.back>
@@ -22,5 +23,6 @@
     action={@live_action}
     todo_item={@todo_item}
     navigate={~p"/todo_items/#{@todo_item}"}
+    current_user={@current_user}
   />
 </.modal>

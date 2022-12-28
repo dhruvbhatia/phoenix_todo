@@ -9,7 +9,8 @@
 </.header>
 
 <.table id="todo_items" rows={@todo_items} row_click={&JS.navigate(~p"/todo_items/#{&1}")}>
-  <:col :let={todo_item} label="Text"><%= todo_item.text %></:col>
+  <:col :let={todo_item} label="Item"><%= todo_item.text %></:col>
+  <:col :let={todo_item} label="Created By"><%= todo_item.user.email %></:col>
   <:action :let={todo_item}>
     <div class="sr-only">
       <.link navigate={~p"/todo_items/#{todo_item}"}>Show</.link>
@@ -36,5 +37,6 @@
     action={@live_action}
     todo_item={@todo_item}
     navigate={~p"/todo_items"}
+    current_user={@current_user}
   />
 </.modal>

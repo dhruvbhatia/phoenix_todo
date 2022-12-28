@@ -21,8 +21,6 @@ defmodule TodoWeb.Router do
     pipe_through [:browser]
 
     get "/", PageController, :home
-
-    live "/todo_items", TodoItemLive.Index, :index
   end
 
   # Other scopes may use custom stacks.
@@ -70,6 +68,8 @@ defmodule TodoWeb.Router do
       on_mount: [{TodoWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      live "/todo_items", TodoItemLive.Index, :index
 
       live "/todo_items/new", TodoItemLive.Index, :new
       live "/todo_items/:id/edit", TodoItemLive.Index, :edit

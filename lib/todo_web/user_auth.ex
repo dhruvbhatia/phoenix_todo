@@ -150,6 +150,9 @@ defmodule TodoWeb.UserAuth do
   def on_mount(:ensure_authenticated, _params, session, socket) do
     socket = mount_current_user(session, socket)
 
+    # IO.inspect("SOCKET")
+    # IO.inspect(socket)
+
     if socket.assigns.current_user do
       {:cont, socket}
     else
